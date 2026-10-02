@@ -29,7 +29,9 @@ int? parsePace(String text) {
 /// Parses "h:mm:ss" or "mm:ss" into seconds, or null when invalid.
 int? parseDuration(String text) {
   final parts = text.trim().split(':').map(int.tryParse).toList();
-  if (parts.any((p) => p == null || p < 0) || parts.length < 2 || parts.length > 3) {
+  if (parts.any((p) => p == null || p < 0) ||
+      parts.length < 2 ||
+      parts.length > 3) {
     return null;
   }
   final values = parts.cast<int>();

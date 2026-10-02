@@ -10,7 +10,12 @@ class AsyncView<T> extends StatefulWidget {
   });
 
   final Future<T> Function() load;
-  final Widget Function(BuildContext context, T data, Future<void> Function() refresh) builder;
+  final Widget Function(
+    BuildContext context,
+    T data,
+    Future<void> Function() refresh,
+  )
+  builder;
   final Listenable? reloadOn;
 
   @override
@@ -62,7 +67,10 @@ class _AsyncViewState<T> extends State<AsyncView<T>> {
                   const SizedBox(height: 12),
                   Text('${snapshot.error}', textAlign: TextAlign.center),
                   const SizedBox(height: 12),
-                  FilledButton(onPressed: _reload, child: const Text('Tentar novamente')),
+                  FilledButton(
+                    onPressed: _reload,
+                    child: const Text('Tentar novamente'),
+                  ),
                 ],
               ),
             ),

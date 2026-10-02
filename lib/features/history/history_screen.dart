@@ -71,10 +71,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
       context: context,
       builder: (c) => AlertDialog(
         title: const Text('Remover atividade?'),
-        content: Text('${a.type.label} de ${formatKm(a.distanceKm)} será removida.'),
+        content: Text(
+          '${a.type.label} de ${formatKm(a.distanceKm)} será removida.',
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('Cancelar')),
-          FilledButton(onPressed: () => Navigator.pop(c, true), child: const Text('Remover')),
+          TextButton(
+            onPressed: () => Navigator.pop(c, false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(c, true),
+            child: const Text('Remover'),
+          ),
         ],
       ),
     );
@@ -84,7 +92,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
       widget.state.dataChanged();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('$e')));
       }
     }
   }
@@ -96,15 +105,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
     if (_items.isEmpty && _error != null) {
       return Center(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Text(_error!),
-          const SizedBox(height: 12),
-          FilledButton(onPressed: _loadMore, child: const Text('Tentar novamente')),
-        ]),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(_error!),
+            const SizedBox(height: 12),
+            FilledButton(
+              onPressed: _loadMore,
+              child: const Text('Tentar novamente'),
+            ),
+          ],
+        ),
       );
     }
     if (_items.isEmpty) {
-      return const Center(child: Text('Nenhuma atividade ainda. Registre a primeira!'));
+      return const Center(
+        child: Text('Nenhuma atividade ainda. Registre a primeira!'),
+      );
     }
     return RefreshIndicator(
       onRefresh: _reset,
@@ -122,8 +139,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
           final a = _items[i];
           final d = a.date;
           return ListTile(
-            leading: Icon(a.type == ActivityType.run ? Icons.directions_run : Icons.directions_walk),
-            title: Text('${formatKm(a.distanceKm)} • ${formatDuration(a.durationSeconds)}'),
+            leading: Icon(
+              a.type == ActivityType.run
+                  ? Icons.directions_run
+                  : Icons.directions_walk,
+            ),
+            title: Text(
+              '${formatKm(a.distanceKm)} • ${formatDuration(a.durationSeconds)}',
+            ),
             subtitle: Text(
               '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}'
               ' • pace ${a.avgPace}'

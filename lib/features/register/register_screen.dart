@@ -53,13 +53,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _effort = null;
       });
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Atividade registrada!')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Atividade registrada!')));
       }
       widget.onSaved();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('$e')));
       }
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -85,10 +87,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           TextFormField(
             controller: _distance,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(labelText: 'Distância (km)', border: OutlineInputBorder()),
+            decoration: const InputDecoration(
+              labelText: 'Distância (km)',
+              border: OutlineInputBorder(),
+            ),
             validator: (v) {
               final n = double.tryParse((v ?? '').replaceAll(',', '.'));
-              return n == null || n <= 0 ? 'Informe uma distância válida' : null;
+              return n == null || n <= 0
+                  ? 'Informe uma distância válida'
+                  : null;
             },
           ),
           const SizedBox(height: 16),
@@ -99,12 +106,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
               labelText: 'Duração (mm:ss ou h:mm:ss)',
               border: OutlineInputBorder(),
             ),
-            validator: (v) => parseDuration(v ?? '') == null ? 'Use o formato 45:30 ou 1:05:30' : null,
+            validator: (v) => parseDuration(v ?? '') == null
+                ? 'Use o formato 45:30 ou 1:05:30'
+                : null,
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
             initialValue: _training,
-            decoration: const InputDecoration(labelText: 'Tipo de treino', border: OutlineInputBorder()),
+            decoration: const InputDecoration(
+              labelText: 'Tipo de treino',
+              border: OutlineInputBorder(),
+            ),
             items: [
               for (final e in trainingTypes.entries)
                 DropdownMenuItem(value: e.key, child: Text(e.value)),
@@ -114,7 +126,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
             initialValue: _effort,
-            decoration: const InputDecoration(labelText: 'Esforço percebido', border: OutlineInputBorder()),
+            decoration: const InputDecoration(
+              labelText: 'Esforço percebido',
+              border: OutlineInputBorder(),
+            ),
             items: [
               for (final e in efforts.entries)
                 DropdownMenuItem(value: e.key, child: Text(e.value)),
@@ -125,13 +140,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
           TextFormField(
             controller: _notes,
             maxLines: 3,
-            decoration: const InputDecoration(labelText: 'Notas', border: OutlineInputBorder()),
+            decoration: const InputDecoration(
+              labelText: 'Notas',
+              border: OutlineInputBorder(),
+            ),
           ),
           const SizedBox(height: 24),
           FilledButton.icon(
             onPressed: _saving ? null : _save,
             icon: _saving
-                ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                 : const Icon(Icons.check),
             label: const Text('Salvar atividade'),
           ),

@@ -24,7 +24,8 @@ class GoalsScreen extends StatelessWidget {
       state.dataChanged();
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('$e')));
       }
     }
   }
@@ -32,8 +33,8 @@ class GoalsScreen extends StatelessWidget {
   String _targetText(Goal g) => g.type == GoalType.avgPace
       ? 'até ${g.targetPace ?? formatPace(g.target.toInt())} /km'
       : g.type == GoalType.distanceKm
-          ? formatKm(g.target)
-          : '${g.target.toInt()} atividades';
+      ? formatKm(g.target)
+      : '${g.target.toInt()} atividades';
 
   String _currentText(Goal g) {
     if (g.current == null) return '';
@@ -57,7 +58,9 @@ class GoalsScreen extends StatelessWidget {
         load: state.repository.goals,
         builder: (context, goals, refresh) {
           if (goals.isEmpty) {
-            return const Center(child: Text('Nenhuma meta ativa. Crie a primeira!'));
+            return const Center(
+              child: Text('Nenhuma meta ativa. Crie a primeira!'),
+            );
           }
           return RefreshIndicator(
             onRefresh: refresh,
@@ -74,11 +77,18 @@ class GoalsScreen extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                child: Text('${g.type.label} • ${g.period.label}',
-                                    style: Theme.of(context).textTheme.titleMedium),
+                                child: Text(
+                                  '${g.type.label} • ${g.period.label}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium,
+                                ),
                               ),
                               if (g.achieved)
-                                const Icon(Icons.check_circle, color: Colors.green),
+                                const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                ),
                               IconButton(
                                 icon: const Icon(Icons.delete_outline),
                                 onPressed: () => _delete(context, g),
@@ -135,7 +145,11 @@ class _NewGoalDialogState extends State<_NewGoalDialog> {
         ? parsePace(_target.text)?.toDouble()
         : double.tryParse(_target.text.replaceAll(',', '.'));
     if (target == null || target <= 0) {
-      setState(() => _error = _type == GoalType.avgPace ? 'Use o formato 05:30' : 'Valor inválido');
+      setState(
+        () => _error = _type == GoalType.avgPace
+            ? 'Use o formato 05:30'
+            : 'Valor inválido',
+      );
       return;
     }
     setState(() => _saving = true);
@@ -163,7 +177,10 @@ class _NewGoalDialogState extends State<_NewGoalDialog> {
             DropdownButtonFormField<GoalType>(
               initialValue: _type,
               decoration: const InputDecoration(labelText: 'Tipo'),
-              items: [for (final t in GoalType.values) DropdownMenuItem(value: t, child: Text(t.label))],
+              items: [
+                for (final t in GoalType.values)
+                  DropdownMenuItem(value: t, child: Text(t.label)),
+              ],
               onChanged: (v) => setState(() {
                 _type = v!;
                 _error = null;
@@ -172,7 +189,10 @@ class _NewGoalDialogState extends State<_NewGoalDialog> {
             DropdownButtonFormField<GoalPeriod>(
               initialValue: _period,
               decoration: const InputDecoration(labelText: 'Período'),
-              items: [for (final p in GoalPeriod.values) DropdownMenuItem(value: p, child: Text(p.label))],
+              items: [
+                for (final p in GoalPeriod.values)
+                  DropdownMenuItem(value: p, child: Text(p.label)),
+              ],
               onChanged: (v) => setState(() => _period = v!),
             ),
             TextField(
@@ -193,8 +213,14 @@ class _NewGoalDialogState extends State<_NewGoalDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar')),
-        FilledButton(onPressed: _saving ? null : _save, child: const Text('Salvar')),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancelar'),
+        ),
+        FilledButton(
+          onPressed: _saving ? null : _save,
+          child: const Text('Salvar'),
+        ),
       ],
     );
   }

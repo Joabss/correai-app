@@ -26,7 +26,10 @@ class HomeScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Text('Seu resumo', style: Theme.of(context).textTheme.headlineSmall),
+              Text(
+                'Seu resumo',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
               const SizedBox(height: 12),
               GridView.count(
                 crossAxisCount: 2,
@@ -36,14 +39,33 @@ class HomeScreen extends StatelessWidget {
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
                 children: [
-                  _StatCard('Semana', formatKm(summary.kmWeek), Icons.calendar_view_week),
-                  _StatCard('Mês', formatKm(summary.kmMonth), Icons.calendar_month),
-                  _StatCard('Sequência', '${summary.streak} dias', Icons.local_fire_department),
-                  _StatCard('Maior distância', formatKm(summary.longestDistance), Icons.emoji_events),
+                  _StatCard(
+                    'Semana',
+                    formatKm(summary.kmWeek),
+                    Icons.calendar_view_week,
+                  ),
+                  _StatCard(
+                    'Mês',
+                    formatKm(summary.kmMonth),
+                    Icons.calendar_month,
+                  ),
+                  _StatCard(
+                    'Sequência',
+                    '${summary.streak} dias',
+                    Icons.local_fire_department,
+                  ),
+                  _StatCard(
+                    'Maior distância',
+                    formatKm(summary.longestDistance),
+                    Icons.emoji_events,
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
-              Text('Evolução semanal (km)', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Evolução semanal (km)',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 12),
               SizedBox(height: 180, child: EvolutionChart(weeks: evolution)),
             ],
@@ -70,7 +92,13 @@ class _StatCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(children: [Icon(icon, size: 18), const SizedBox(width: 6), Text(label)]),
+            Row(
+              children: [
+                Icon(icon, size: 18),
+                const SizedBox(width: 6),
+                Text(label),
+              ],
+            ),
             const SizedBox(height: 6),
             Text(value, style: Theme.of(context).textTheme.titleLarge),
           ],
@@ -99,8 +127,10 @@ class EvolutionChart extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(w.km == 0 ? '' : w.km.toStringAsFixed(0),
-                      style: Theme.of(context).textTheme.labelSmall),
+                  Text(
+                    w.km == 0 ? '' : w.km.toStringAsFixed(0),
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
                   const SizedBox(height: 2),
                   Container(
                     height: maxKm == 0 ? 2 : 2 + (w.km / maxKm) * 120,
@@ -110,8 +140,10 @@ class EvolutionChart extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text('${w.weekStart.day.toString().padLeft(2, '0')}/${w.weekStart.month.toString().padLeft(2, '0')}',
-                      style: Theme.of(context).textTheme.labelSmall),
+                  Text(
+                    '${w.weekStart.day.toString().padLeft(2, '0')}/${w.weekStart.month.toString().padLeft(2, '0')}',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
                 ],
               ),
             ),

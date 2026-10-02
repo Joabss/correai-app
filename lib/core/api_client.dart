@@ -17,8 +17,8 @@ class ApiException implements Exception {
 
 class ApiClient {
   ApiClient({http.Client? client, String? baseUrl})
-      : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ?? apiBaseUrl;
+    : _client = client ?? http.Client(),
+      _baseUrl = baseUrl ?? apiBaseUrl;
 
   static const _tokenKey = 'access_token';
 
@@ -44,7 +44,8 @@ class ApiClient {
   Future<dynamic> get(String path, {Map<String, String>? query}) =>
       _send('GET', path, query: query);
 
-  Future<dynamic> post(String path, Object body) => _send('POST', path, body: body);
+  Future<dynamic> post(String path, Object body) =>
+      _send('POST', path, body: body);
 
   Future<void> delete(String path) async {
     await _send('DELETE', path);
@@ -79,7 +80,10 @@ class ApiClient {
       if (response.body.isEmpty) return null;
       return jsonDecode(utf8.decode(response.bodyBytes));
     }
-    throw ApiException(_errorMessage(response), statusCode: response.statusCode);
+    throw ApiException(
+      _errorMessage(response),
+      statusCode: response.statusCode,
+    );
   }
 
   String _errorMessage(http.Response response) {

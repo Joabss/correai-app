@@ -8,6 +8,8 @@ import 'features/goals/goals_screen.dart';
 import 'features/history/history_screen.dart';
 import 'features/home/home_screen.dart';
 import 'features/register/register_screen.dart';
+import 'features/track/track_controller.dart';
+import 'features/track/track_screen.dart';
 
 void main() {
   runApp(CorreAiApp(api: ApiClient()));
@@ -29,7 +31,8 @@ class CorreAiApp extends StatelessWidget {
       ),
       home: AsyncView<void>(
         load: api.init,
-        builder: (context, _, _) => AppShell(state: AppState(CorreAiRepository(api))),
+        builder: (context, _, _) =>
+            AppShell(state: AppState(CorreAiRepository(api))),
       ),
     );
   }
@@ -45,16 +48,37 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> {
+  final _track = TrackController();
   int _index = 0;
 
-  static const _titles = ['Início', 'Histórico', 'Registrar', 'Metas'];
+  static const _titles = [
+    'Início',
+    'Histórico',
+    'Gravar',
+    'Registrar',
+    'Metas',
+  ];
+
+  @override
+  void dispose() {
+    _track.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screens = [
       HomeScreen(state: widget.state),
       HistoryScreen(state: widget.state),
-      RegisterScreen(state: widget.state, onSaved: () => setState(() => _index = 1)),
+      TrackScreen(
+        state: widget.state,
+        controller: _track,
+        onSaved: () => setState(() => _index = 1),
+      ),
+      RegisterScreen(
+        state: widget.state,
+        onSaved: () => setState(() => _index = 1),
+      ),
       GoalsScreen(state: widget.state),
     ];
     return Scaffold(
@@ -64,10 +88,23 @@ class _AppShellState extends State<AppShell> {
         selectedIndex: _index,
         onDestinationSelected: (i) => setState(() => _index = i),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Início'),
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: 'Início',
+          ),
           NavigationDestination(icon: Icon(Icons.history), label: 'Histórico'),
-          NavigationDestination(icon: Icon(Icons.add_circle_outline), selectedIcon: Icon(Icons.add_circle), label: 'Registrar'),
-          NavigationDestination(icon: Icon(Icons.flag_outlined), selectedIcon: Icon(Icons.flag), label: 'Metas'),
+          NavigationDestination(
+            icon: Icon(Icons.play_circle_outline),
+            selectedIcon: Icon(Icons.play_circle),
+            label: 'Gravar',
+          ),
+          NavigationDestination(icon: Icon(Icons.edit_note), label: 'Manual'),
+          NavigationDestination(
+            icon: Icon(Icons.flag_outlined),
+            selectedIcon: Icon(Icons.flag),
+            label: 'Metas',
+          ),
         ],
       ),
     );
